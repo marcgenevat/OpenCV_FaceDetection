@@ -1,0 +1,55 @@
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/objdetect/objdetect.hpp>
+#include <iostream>
+
+using namespace cv;
+using namespace std;
+
+/** Global variable **/
+bool flag = true;
+string face_cascade_name = "haarcascade_frontalface_alt.xml";
+string window_name = "Capture - Face detection";
+CascadeClassifier face_cascade;
+string filename = "video.mpeg";
+
+
+int main (int argc, char *argv[]) {
+
+	//CvCapture* capture;
+	Mat frame;
+
+	if(!face_cascade.load(face_cascade_name)){ cout << "--(!)Error loading\n" << endl; return -1; };
+
+	//OpenCV video capture object
+	VideoCapture capture(filename);
+	
+	//Create window to visualize results
+	namedWindow("Capture - Face detection", CV_WINDOW_AUTOSIZE);
+
+	if (capture) {
+		while (true) {
+			capture >> frame;
+			/*
+			if (!frame.empty()) {
+				detectAndDisplay(frame);
+			}
+			else {
+				printf(" --(!) No captured frame -- Break!");
+				break;
+			}
+			*/
+	
+			if(frame.empty())
+				break;
+			imshow("w", frame);
+			waitKey(20);
+/*
+			int c = waitKey(10);
+			if ((char)c == 'c') {
+				break;
+			}*/
+		}
+	}
+	return 0;
+}
